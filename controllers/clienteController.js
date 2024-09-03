@@ -57,39 +57,33 @@ res.json(clientes);
 
     //funcion modificar clientes con metodo put
 
-    exports.modificarClientes = async (req, res) =>{
+    exports.actualizarClientes = async(req, res) => {
       try {
         
-      const clientes = await Cliente.findOneAndUpDate({_id: req.params.id}, req.body, {new:true});
-      if(!clientes) {
-          res.status(404).send("cliente no encontrado");
+      const {nombres, apellidos, documento, correo, telefono, direccion} = req.body
+      let cliente = await Cliente.findById(req.params.id);
+      
+      if(!cliente){
+        res.status(404).json({msg: "el cliente no existe"});
+        return
+      }
+       cliente.nombres = nombres;
+       cliente.apellidos = apellidos;
+       cliente.documento = documento;
+       cliente.correo = correo;
+       cliente.telefono = telefono;
+       cliente. direccion = direccion;
 
-      }else 
-          res.json(clientes);
-        
+       cliente = await Cliente.findOneAndUpdate({_id: req.params.id}, cliente,{new:true});
+       res.json(cliente);
 
       } catch (error) {
         console.log(error)
-        res.status(500).send('hubo un error al editar el cliente');
+        res.status(500).send('hubo un error al ctualizr el cliente');
       }
     }
 
-    //funcion edita utilizando patch
-
-    exports.editarClientes = async(req, res) =>{
-        try {
-            const clientes = await Cliente.findByIdAndUpdate(req.params.id, req.body, {new:true});
-            if(!clientes){
-                return res.status(400).send("cliente no existe");
-            }
-             res.json(clientes);
-
-        } catch (error) {
-         console.log(error)
-         res.status(500) .send('hubo un error al edita un cliente');
-
-        }
-    }
+    
 // funcion eliminar clientes
 
     exports.eliminarClientes = async(req, res) =>{
