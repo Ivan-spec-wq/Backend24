@@ -79,7 +79,7 @@ res.json(clientes);
 
       } catch (error) {
         console.log(error)
-        res.status(500).send('hubo un error al ctualizr el cliente');
+        res.status(500).send('hubo un error al actualizar el cliente');
       }
     }
 
