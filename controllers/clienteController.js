@@ -57,7 +57,7 @@ res.json(clientes);
 
     //funcion modificar clientes con metodo put
 
-    exports.editarClientes = async (req, res) =>{
+    exports.modificarClientes = async (req, res) =>{
       try {
         
       const clientes = await Cliente.findOneAndUpDate({_id: req.params.id}, req.body, {new:true});
